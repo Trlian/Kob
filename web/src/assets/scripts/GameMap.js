@@ -39,7 +39,7 @@ export class GameMap extends AcGameObject {
             for (let c = 0; c < this.cols; c ++ ) {
                 g[r][c] = false;
             }
-        }   
+        }    
 
         //给四周加上障碍物
         //左右两边加上障碍物
