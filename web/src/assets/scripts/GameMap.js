@@ -21,9 +21,6 @@ export class GameMap extends AcGameObject {
             new Snake({id: 1, color: "#F94848", r: 1, c: this.cols - 2}, this),
         ];
         
-        this.eye_direction = 0;
-        if (this.id === 0) this.eye_direction = 0;      //左下角的蛇初始状态朝上，右上角的蛇初始状态朝下
-        if (this.id === 1) this.eye_direction = 2;
     }
     //起点：(sx, sy), 终点：(tx, ty)
     check_connectivity(g, sx, sy, tx, ty) {
