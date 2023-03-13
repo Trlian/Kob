@@ -1,0 +1,67 @@
+package com.kob.backend.service.impl.user.bot;
+
+import com.kob.backend.mapper.BotMappper;
+import com.kob.backend.pojo.Bot;
+import com.kob.backend.pojo.User;
+import com.kob.backend.service.impl.utils.UserDetailsImpl;
+import com.kob.backend.service.user.bot.AddService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+public class AddServiceImpl implements AddService {
+
+    @Autowired
+    private BotMappper botMappper;
+
+    @Override
+    public Map<String, String> add(Map<String, String> data) {
+        UsernamePasswordAuthenticationToken authenticationToken =
+                (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+
+        UserDetailsImpl loginUser = (UserDetailsImpl) authenticationToken.getPrincipal();
+        User user = loginUser.getUser();
+
+        String title = data.get("title");
+        String description = data.get("description");
+        String content = data.get("content");
+
+        Map<String, String> map = new HashMap<>();
+
+        if (title == null || title.length() == 0) {
+            map.put("errorMessage", "标题不能为空");
+            return map;
+        }
+
+        if (title.length() > 100) {
+            map.put("errorMessage", "标题长度不能大于100");
+            return map;
+        }
+
+        if (description != null || description.length() > 300) {
+            description = "这个用户很懒，什么也没留下~";
+        }
+
+        if (content == null || content.length() == 0) {
+            map.put("errorMessage", "代码不能为空");
+            return map;
+        }
+
+        if (content.length() > 10000) {
+            map.put("errorMessage", "代码的长度不能超过10000");
+            return map;
+        }
+
+        Date now = new Date();
+        Bot bot = new Bot(null, user.getId(), title, description, content, 1500, now, now);
+
+        botMappper.insert(bot);
+        map.put("errorMessage", "success");
+
+        return map;
+    }
+}
