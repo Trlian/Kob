@@ -1,6 +1,6 @@
 package com.kob.backend.service.impl.user.bot;
 
-import com.kob.backend.mapper.BotMappper;
+import com.kob.backend.mapper.BotMapper;
 import com.kob.backend.pojo.Bot;
 import com.kob.backend.pojo.User;
 import com.kob.backend.service.impl.utils.UserDetailsImpl;
@@ -8,15 +8,17 @@ import com.kob.backend.service.user.bot.AddService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class AddServiceImpl implements AddService {
 
     @Autowired
-    private BotMappper botMappper;
+    private BotMapper botMapper;
 
     @Override
     public Map<String, String> add(Map<String, String> data) {
@@ -59,7 +61,7 @@ public class AddServiceImpl implements AddService {
         Date now = new Date();
         Bot bot = new Bot(null, user.getId(), title, description, content, 1500, now, now);
 
-        botMappper.insert(bot);
+        botMapper.insert(bot);
         map.put("errorMessage", "success");
 
         return map;

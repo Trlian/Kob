@@ -5,6 +5,6 @@ import com.kob.backend.pojo.Bot;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface BotMappper extends BaseMapper<Bot> {
+public interface BotMapper extends BaseMapper<Bot> {
 
 }

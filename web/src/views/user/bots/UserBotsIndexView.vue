@@ -15,13 +15,30 @@ export default {
     },
     setup() {
         const store = useStore();
+    //     $.ajax({
+    //         url: "http://localhost:3000/user/bot/add/",
+    //         type: "post",
+    //         data: {
+    //             title: "Bot的标题",
+    //             description: "Bot的描述",
+    //             content: "Bot的代码", 
+    //         },
+    //         headers: {
+    //             Authorization: "Bearer " + store.state.user.token,
+    //         },
+    //         success(resp) {
+    //             console.log(resp);
+    //         },
+    //         error(resp) {
+    //             console.log(resp);
+    //         }
+    //     })
+
         $.ajax({
-            url: "http://localhost:3000/user/bot/add/",
+            url: "http://localhost:3000/user/bot/remove/",
             type: "post",
             data: {
-                title: "Bot的标题",
-                description: "Bot的描述",
-                content: "Bot的代码", 
+                bot_id: 4,
             },
             headers: {
                 Authorization: "Bearer " + store.state.user.token,
@@ -33,6 +50,41 @@ export default {
                 console.log(resp);
             }
         })
+
+        $.ajax({
+            url: "http://localhost:3000/user/bot/update/",
+            type: "post",
+            data: {
+                bot_id: 7,
+                title: "Bot的标题7",
+                description: "Bot的描述7",
+                content: "Bot的内容7",
+            },
+            headers: {
+                Authorization: "Bearer " + store.state.user.token,
+            },
+            success(resp) {
+                console.log(resp);
+            },
+            error(resp) {
+                console.log(resp);
+            }
+        })
+
+        $.ajax({
+            url: "http://localhost:3000/user/bot/getlist/",
+            type: "get",
+            headers: {
+                Authorization: "Bearer " + store.state.user.token,
+            },
+            success(resp) {
+                console.log(resp);
+            },
+            error(resp) {
+                console.log(resp);
+            }
+        })
+
     }
 }
 </script>
