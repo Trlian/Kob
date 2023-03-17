@@ -44,7 +44,7 @@ public class AddServiceImpl implements AddService {
             return map;
         }
 
-        if (description != null || description.length() > 300) {
+        if (description == null || description.length() > 300) {
             description = "这个用户很懒，什么也没留下~";
         }
 
