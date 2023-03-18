@@ -41,7 +41,7 @@
                                             @init="editorInit"
                                             lang="c_cpp"
                                             theme="textmate"
-                                            style="height: 300px" />
+                                            style="height: 300px; font-size: large;" />
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -52,7 +52,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        
                     </div>
 
                     <div class="card-body">
@@ -96,7 +96,7 @@
                                                             @init="editorInit"
                                                             lang="c_cpp"
                                                             theme="textmate"
-                                                            style="height: 300px" />
+                                                            style="height: 300px;font-size: large;" />
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -121,21 +121,77 @@
 </template>
 
 <script>
-import ContentFieldVue from '../../../components/ContentField.vue'
+
 import { ref, reactive } from 'vue'
 import $ from 'jquery'
 import { useStore } from 'vuex'
 import  { Modal } from 'bootstrap/dist/js/bootstrap'
 import ace from 'ace-builds'
 import { VAceEditor } from 'vue3-ace-editor'
-import ContentFieldVue from '../../../components/ContentField.vue'
+import "ace-builds/webpack-resolver";
+import 'ace-builds/src-noconflict/mode-json';
+import 'ace-builds/src-noconflict/theme-chrome';
+import 'ace-builds/src-noconflict/ext-language_tools';
+
 
 export default {
-    component: {
+    components: {
         VAceEditor,
-        ContentFieldVue
     },
     setup() {
+        const aceConfig = reactive({
+            theme: 'chrome', //主题
+            arr: [
+                /*所有主题*/
+                "ambiance",
+                "chaos",
+                "chrome",
+                "clouds",
+                "clouds_midnight",
+                "cobalt",
+                "crimson_editor",
+                "dawn",
+                "dracula",
+                "dreamweaver",
+                "eclipse",
+                "github",
+                "gob",
+                "gruvbox",
+                "idle_fingers",
+                "iplastic",
+                "katzenmilch",
+                "kr_theme",
+                "kuroir",
+                "merbivore",
+                "merbivore_soft",
+                "monokai",
+                "mono_industrial",
+                "pastel_on_dark",
+                "solarized_dark",
+                "solarized_light",
+                "sqlserver",
+                "terminal",
+                "textmate",
+                "tomorrow",
+                "tomorrow_night",
+                "tomorrow_night_blue",
+                "tomorrow_night_bright",
+                "tomorrow_night_eighties",
+                "twilight",
+                "vibrant_ink",
+                "xcode",
+            ],
+            readOnly: false, //是否只读
+            options: {
+                enableBasicAutocompletion: true,
+                enableSnippets: true,
+                enableLiveAutocompletion: true,
+                tabSize: 2,
+                showPrintMargin: false,
+                fontSize: 16
+            }
+        });
+
         ace.config.set(
             "basePath", 
             "https://cdn.jsdelivr.net/npm/ace-builds@" + require('ace-builds').version + "/src-noconflict/")
@@ -242,12 +298,31 @@ export default {
             })
         }
 
+        const dataForm = reactive({
+            textareashow: '{"A":"A1"}'
+        });
+
+        const jsonError = (e) => {
+            console.log(`JSON字符串错误：${e.message}`);
+        }
+
+        const editorInit = () => {
+            try {
+                dataForm.textareashow = JSON.stringify(JSON.parse(dataForm.textareashow), null, 2)
+            } catch (e) {
+                jsonError(e)
+            }
+        };
+
+
         return {
             bots,
             botadd,
             add_bot,
             remove_bot,
-            update_bot
+            update_bot,
+            editorInit,
+            aceConfig,
         }
     }
 }
